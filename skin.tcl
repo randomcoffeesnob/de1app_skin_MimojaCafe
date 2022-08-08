@@ -160,7 +160,7 @@ proc iconik_get_status_text {} {
 		}
 		0 {
 			if {[::device::scale::is_connected]} {
-				return [translate "Ready\nScale connected"]
+				return [translate "Scale connected\nTap to tare"]
 			}
 
 			return [translate "Ready"]
@@ -203,10 +203,13 @@ proc iconik_status_tap {} {
 	if {$::de1(scale_device_handle) == 0 && $::settings(scale_bluetooth_address) != ""} {
 		ble_connect_to_scale
 	}
-
+	if {$::de1(scale_device_handle) == 1} {
+		::device::scale::tare
+	}
 	if {$::de1_num_state($::de1(state)) == "Espresso"} {
 		start_next_step
 	}
+
 }
 
 proc ghc_text_or_stop {text} {
